@@ -1,0 +1,28 @@
+.wrapper{
+	position: absolute;
+	height:500px;
+	padding:0 100px;
+	overflow:hidden;
+	background:gainsboro;
+}
+.main{
+	float:left;
+	width:100%;
+	background:cyan;
+}
+.left{
+	float:left;
+	width:100px;
+	margin-left:-100%;
+	position: relative;
+	left:-100px;
+	background:yellow;
+}
+.right{
+	float:left;
+	width:100px;
+	margin-left:-100px;
+	position: relative;
+	right:-100px;
+	background:red;
+}

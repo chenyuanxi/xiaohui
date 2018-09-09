@@ -1,0 +1,28 @@
+body{
+	min-width: 1100xp;
+}
+h4{
+	color:#555555;
+}
+.clearfix{
+	*zoom:1;
+}
+.clearfix:after{
+	content: "";
+	display: block;
+	height: 0;
+	overflow: hidden;
+	clear: both;
+}
+.public-header{
+	height:110px;
+}
+.public-containar-center{
+	width:1100px;
+	height: inherit;
+	margin:0 auto;
+}
+.public-footer{
+	height:318px;
+	background: #3b3b3b;
+}

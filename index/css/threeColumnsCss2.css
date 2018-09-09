@@ -1,0 +1,14 @@
+.main{
+	float:left;
+	width:100px;
+	background:yellow;
+}
+.left{
+	float:left;
+	width:100px;
+	background:red;
+}
+.right{
+	width:calc(100%-200px);
+	background:cyan;
+}
