@@ -1,0 +1,160 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+ul{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+.clearfloat:after{
+	content: "";
+	display: block;
+	height: 0;
+	overflow: hidden;
+	clear: both;
+}
+
+
+header{
+	min-width: 1000px;
+	height: 78px;
+	background: url(../img/header.png) repeat;
+}
+.logo{
+	display: block;
+	float: left;
+	margin-left: 60px;
+	width: 200px;
+	height: 78px;
+	background: url(../img/1.png) no-repeat;
+	text-indent: -9999px;
+}
+
+.menu-list{
+	float: right;
+	height: 78px;
+	list-style: none;
+}
+.menu-list li{
+	display: inline-block;
+	margin-right: 80px;
+	line-height: 78px;
+	font-weight: 600;
+}
+.menu-list li a{
+	color: #434a4c;
+}
+.banner{
+	position: relative;
+	min-width: 1000px;
+	height: 500px;
+}
+.banner video{
+	width:100%;
+	height:100%;
+	object-fit: fill;
+}
+.banner-text{
+	position: absolute;
+	width: 50%;
+	height: 150px;
+	margin: auto;
+	top: 0; left: 0; bottom: 0; right: 0;
+	font: italic 900 2.5rem SimHei;
+	letter-spacing: 10px;
+	color: #fff;
+	text-align: center;
+}
+
+article{
+	min-width: 1000px;
+	padding-top: 60px;
+}
+.article-title{
+	margin: 0 auto;
+	width: 960px;
+	text-align: center;
+}
+.article-title h2{
+	margin: 20px 0 20px 0;
+	color: blue;
+	font: italic 900 40px STKaiti;
+	letter-spacing: 6px;
+}
+.article-title p{
+	margin: 6px 0 0 6px;
+	font-size: 20px;
+}
+.article-title-more{
+	display: block;
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	border: #0000FF 1px solid;
+	border-radius: 100px;
+	margin: 100px auto;
+}
+.section-introduce{
+	background: #fafafa;
+	height: 500px;
+	padding-top: 40px;
+}
+.section-introduce h3{
+	color: #969696;
+	font-weight: 300;
+	font-size: 30px;
+	text-align: center;
+	padding-bottom: 20px;
+	border-bottom: 1px  #e8e8e9 solid;
+}
+
+
+
+footer{
+	min-width: 1000px;
+	height: 280px;
+	background: #ecf0f1;
+}
+.footer-follow,.footer-join,.footer-legal,.footer-link{
+	float: left;
+	margin-left: 60px;
+	font-size: 14px;
+	font-weight: 200;
+	color: #434a4c;
+}
+.footer-wrap h3{
+	margin: 2rem 0 1rem 0;
+	font-weight: 100;
+	font-size: 20px;
+}
+.footer-ul li{
+	margin-top: 6px;
+}
+.footer-logo{
+	float:right;
+	margin:52px 80px 0 0;
+}
+aside{
+	font-size: 14px;
+	font-weight: 200;
+	color: #747b81;
+}
+.aside-left ul{
+	margin:60px 0 0 54px;
+}
+.aside-left ul li{
+	display:inline;
+	border-right: 1px #747b81 solid;
+	padding:0 10px 0 6px;
+}
+.aside-left ul li:last-child{
+	border-right:none ;
+}
+.aside-right{
+	float: right;
+	margin: -20px 60px 0 0;
+}
+
+
