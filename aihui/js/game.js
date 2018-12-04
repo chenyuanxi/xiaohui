@@ -31,8 +31,8 @@ var startGame = function() {
   Game.setBoard(0,new Starfield(20,0.4,100,true));
   Game.setBoard(1,new Starfield(50,0.6,100));
   Game.setBoard(2,new Starfield(100,1.0,50));
-  Game.setBoard(3,new TitleScreen("杨卉卉专用打飞机", 
-                                  "按开火键开始",
+  Game.setBoard(3,new TitleScreen("打飞机", 
+                                  "按空格键开始",
                                   playGame));
 };
 
