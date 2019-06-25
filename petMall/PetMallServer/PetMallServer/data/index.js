@@ -52,11 +52,12 @@ DB.prototype.insertMany = function (document) {
   })
 }
 // 查询数据
-DB.prototype.find = function (condition) {
+DB.prototype.find = function (condition, config) {
+  let myConfig = config || {number: 10, page: 0}
   return new Promise ((resolve, reject) => {
      this.connect().then((client) => {
-        const db = client.db(this.dbName);
-        db.collection(this.collectionName).find(condition).toArray(function (err, res) {
+        const db = client.db(this.dbName)
+        db.collection(this.collectionName).find(condition).limit(myConfig.number).skip(myConfig.page*myConfig.number).toArray(function (err, res) {
           if (err) {
             reject(err)
           } else {

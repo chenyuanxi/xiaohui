@@ -14,3 +14,7 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+// 切换页面页面定位到页面顶部
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0)
+})

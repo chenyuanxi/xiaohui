@@ -5,6 +5,8 @@ import ClassPage from '@/pages/ClassPage'
 import Personal from '@/pages/Personal'
 import ShoopCart from '@/pages/ShoopCart'
 import SignRegister from '@/pages/SignRegister'
+import Goods from '@/pages/Goods/Goods'
+import GoodsList from '@/pages/Goods/GoodsList'
 
 Vue.use(Router)
 
@@ -46,6 +48,19 @@ export default new Router({
       path: '/SignRegister',
       name: 'SignRegister',
       component: SignRegister
+    },
+    {
+      path: '/goods',
+      name: 'Goods',
+      component: Goods
+    },
+    {
+      path: '/goodsList',
+      name: 'GoodsList',
+      component: GoodsList,
+      meta: {
+        showFooter: true
+      }
     },
     {
       path: '/',

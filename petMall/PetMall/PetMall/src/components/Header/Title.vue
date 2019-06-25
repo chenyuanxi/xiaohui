@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="left"><slot name="left"></slot></div>
-    <span>{{message}}</span>
+    <div class="message">{{message}}</div>
     <div class="right"><slot name="right"></slot></div>
   </header>
 </template>
@@ -16,18 +16,25 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   header{
+    position: relative;
     height: 36px;
-    padding: 0 10px;
+    margin-bottom: 2px;
     background: #eff2f3;
     line-height: 36px;
     overflow: hidden;
-    text-align: center;
     box-shadow: 0 1px 1px #d6cece;
   }
   .left{
-    float: left;
+    position: absolute;
+    left: 10px;
   }
   .right{
-    float: right;
+    position: absolute;
+    right: 10px;
+  }
+  .message{
+    position: absolute;
+    right: 50%;
+    transform: translate(50%);
   }
 </style>

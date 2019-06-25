@@ -2,15 +2,32 @@
   <header>
     <div class="logo">宠物乐园</div>
     <div class="search">
-      <input type="text" class="text" placeholder="搜索商品">
-      <span class="iconfont icon-chazhao"></span>
+      <input type="text" class="text" placeholder="搜索商品" v-model="goodsName">
+      <span class="iconfont icon-chazhao" @click="findGoods"></span>
     </div>
   </header>
 </template>
 
 <script>
+import eventBus from '../../eventBus/eventBus'
 export default {
-  name: 'Header'
+  name: 'Header',
+  data: function () {
+    return {
+      show: false,
+      goodsName: ''
+    }
+  },
+  methods: {
+    findGoods: function () {
+      this.$router.push('/goodsList')
+    }
+  },
+  beforeDestroy () {
+    if (this.goodsName) {
+      eventBus.$emit('send', this.goodsName)
+    }
+  }
 }
 </script>
 
@@ -30,22 +47,27 @@ header{
   float: right;
   position: relative;
   padding:0 10px;
-  margin-top: -2px;
   margin-right: 10px;
 }
-.search input{
+.text{
   width: 100px;
   height: 22px;
-  padding-left: 10px;
-  padding-right: 22px;
+  font-size: 14px;
+  color: #726f6f;
+  padding:0 26px 0 10px;
   outline: none;
-  border: 1px solid #999;
-  border-radius: 10px;
+  border: 1px solid #adabab;
+  border-radius: 12px;
+  transition: all 0.5s;
+}
+.text:focus{
+  transform:scale(1.1,1.1);
+  border: 1px solid #f8b6b6;
 }
 .search span{
-  font-size: 20px;
+  font-size: 18px;
   position: absolute;
-  top: 0;
+  top: 1px;
   right: 12px;
 }
 </style>

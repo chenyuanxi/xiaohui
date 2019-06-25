@@ -35,6 +35,13 @@ ul{
 button,input{
   outline: none;
 }
+input::placeholder{
+  color: #c9c6c6;
+}
+a{
+  color: #000;
+  text-decoration: none;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

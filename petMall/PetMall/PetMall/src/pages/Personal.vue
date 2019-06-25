@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="personal">
+    <div :class="{personal: isShow}">
       <Title message="个人中心">
         <div slot="left">></div>
       </Title>
@@ -8,11 +8,11 @@
         <div v-if="isSign" class="logged">
           <span class="iconfont icon-denglu signImg"></span>
           <p class="describe">
-            <span>{{userInfo.name}}</span>
+            <span>{{user.name}}</span>
             <br>
             <span>
               <span class="iconfont icon-shouji"></span>
-              {{userInfo.phone}}
+              {{user.phone}}
             </span>
           </p>
         </div>
@@ -66,9 +66,7 @@
           </FunctionCard>
         </div>
       </div>
-      <div v-else class="loading">
-        <p class="loading-text">加载中...</p>
-      </div>
+      <Loading v-else/>
     </div>
     <div class="logOut" v-show="isSign" @click="logOut">退出登录</div>
   </div>
@@ -78,16 +76,21 @@
 import FunctionCard from '../components/PersonalPart/FunctionCard'
 import Title from '../components/Header/Title'
 import api from '../api/index'
+import Loading from '../components/Function/Loading'
 export default {
   name: 'Personal',
   components: {
     Title,
-    FunctionCard
+    FunctionCard,
+    Loading
   },
   data: function () {
     return {}
   },
   computed: {
+    user: function () {
+      return this.$store.state.getUserInfo.user
+    },
     userInfo: function () {
       return this.$store.state.getUserInfo.userInfo
     },
@@ -95,7 +98,7 @@ export default {
       return this.$store.state.getUserInfo.code
     },
     isSign: function () {
-      if (this.userInfo.phone) {
+      if (this.user.phone) {
         return true
       }
       return false
@@ -168,15 +171,6 @@ export default {
   letter-spacing: 6px;
   text-align: center;
   line-height: 28px;
-}
-.loading {
-  position: absolute;
-  top: 38px;
-  bottom: 20px;
-  right: 0;
-  left: 0;
-  background: url("../assets/images/loading.gif") no-repeat center center;
-  background-size: cover;
 }
 .loading-text{
   padding: 10px 6px;

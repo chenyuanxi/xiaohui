@@ -7,14 +7,15 @@
       </div>
       <div class="body">
         <ul>
-          <li class="goods-item" v-for="item in goodsItem" :key="item.id">
-            <div class="goods-img">
-              <img :src='item.img'/>
-            </div>
+          <li class="goods-item" v-for="(item, index) in goodsItem" :key="index">
+            <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: 'http://localhost:3000/static/img/petMallImg/catFood/'}}" class="goods-img">
+              <img :src="'http://localhost:3000/static/img/petMallImg/catFood/' + item.image.show[0]"/>
+            </router-link>
             <div class="goods-info">
-              <p class="goods-title">{{item.title}}<span>规格：{{item.specs}}</span></p>
+              <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: 'http://localhost:3000/static/img/petMallImg/catFood/'}}" class="goods-title">{{item.name}}</router-link>
+              <span class="specs">规格：{{item.specs}}</span>
               <div class="goods-bottom">
-                <p><span class="symbol">￥</span>{{item.price}}<span class="price">满减</span></p>
+                <p><span class="symbol">￥</span>{{item.price}}<span class="price">{{item.discount}}</span></p>
                 <button>立即抢购</button>
               </div>
             </div>
@@ -28,53 +29,22 @@
 <script>
 export default {
   name: 'FullReduction',
-  data () {
-    return {
-      goodsItem: [
-        {
-          id: 1,
-          img: require('./img/1.jpg'),
-          title: '皇家波斯幼猫粮/KP32',
-          specs: '500g',
-          price: 52.9
-        },
-        {
-          id: 2,
-          img: require('./img/2.jpg'),
-          title: '皇家美国短毛猫/ASA31',
-          specs: '1kg',
-          price: 89
-        },
-        {
-          id: 3,
-          img: require('./img/3.jpg'),
-          title: '缅因猫成猫粮/MC31',
-          specs: '2kg',
-          price: 199
-        },
-        {
-          id: 4,
-          img: require('./img/4.jpg'),
-          title: '暹罗猫成粮/SM38',
-          specs: '2kg',
-          price: 366
-        },
-        {
-          id: 5,
-          img: require('./img/5.jpg'),
-          title: '皇家布偶成猫粮/RA32',
-          specs: '2kg',
-          price: 386
-        }
-      ]
+  computed: {
+    goodsItem: function () {
+      return this.$store.state.goods.catFood
     }
   }
 }
 </script>
 
 <style scoped>
+  a{
+    text-decoration: none;
+  }
   section{
     background: #fff;
+    margin-top:8px;
+    padding-bottom: 2px;
   }
   .top{
     height: 36px;
@@ -126,9 +96,10 @@ export default {
     border-bottom: 1px solid #f560607c;
   }
   .goods-title{
+    color: #000;
     font-size: 16px;
   }
-  .goods-title span{
+  .goods-info .specs{
     display: block;
     margin-top: 3px;
     font-size: 12px;

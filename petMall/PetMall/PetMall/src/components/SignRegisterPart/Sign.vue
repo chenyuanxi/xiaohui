@@ -16,7 +16,8 @@
       </div>
     </div>
     <span v-show="tip" class="tip">{{message}}</span>
-    <button class="signButton" @click="sign">登录</button>
+    <button class="signButton" @click="sign" v-if="button">登录</button>
+    <button class="signButton" v-else>请等待...</button>
   </div>
 </template>
 
@@ -32,13 +33,11 @@ export default {
       phone: '',
       sms: '',
       tip: false,
-      message: ''
+      message: '',
+      button: true
     }
   },
   computed: {
-    userInfo: function () {
-      return this.$store.state.userInfo
-    },
     isCorrect: function () {
       return /^1[34578][0-9]{9}$/.test(this.phone)
     }
@@ -54,18 +53,22 @@ export default {
         this.message = '*信息不全'
         return
       }
+      this.button = false
       const response = await api.sign({
         phone: this.phone,
         password: this.password,
         sms: this.sms
       })
+      if (response.code) {
+        this.button = true
+      }
       if (response.code === 1) {
         this.tip = true
         this.message = response.message
         this.refImg()
       } else if (response.code === 0) {
         // this.$store.dispatch('getUserInfo')
-        this.$router.replace('/Personal')
+        this.$router.push('/Personal')
         this.$router.go(0)
       }
     },
