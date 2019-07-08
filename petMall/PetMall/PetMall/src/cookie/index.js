@@ -1,5 +1,5 @@
 export default {
-  setCookie: function ({ name: value }, day) {
+  setCookie: function (name, value, day) {
     let time = new Date()
     time.setTime(time.getTime() + (day * 24 * 60 * 60 * 1000))
     var expires = 'expires= ' + time.toGMTString()

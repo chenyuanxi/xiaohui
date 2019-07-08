@@ -29,5 +29,31 @@ export default {
   async findGoods ({ commit }, data) {
     const findGoods = await api.findGoods(data)
     commit('receiveFindGoods', findGoods)
+  },
+  // 添加购物车
+  async addToCart ({ commit }, data) {
+    const addToCart = await api.addToCart(data)
+    commit('receiveAddToCart', addToCart)
+    commit('receiveSetShopCartCount', data.info.goodsItem[0].count)
+  },
+  // 获取购物车信息
+  async getShopCart ({ commit }) {
+    const getShopCart = await api.getShopCart()
+    commit('receiveGetShopCart', getShopCart)
+    let sum = 0
+    if (getShopCart.goodsItem) {
+      getShopCart.goodsItem.forEach(function (value) {
+        sum += parseInt(value.count)
+      })
+    }
+    commit('receiveGetShopCartCount', sum)
+  },
+  // 修改购物车商品数量
+  setShopCartCount ({ commit }, shopCartCount) {
+    commit('receiveGetShopCartCount', shopCartCount)
+  },
+  // 更新购物车信息
+  async updateCart ({ commit }, data) {
+    await api.updateCart(data)
   }
 }

@@ -3,7 +3,7 @@
     <section>
       <div class="top">
         <h3 class="top-title">满减进行时</h3>
-        <div class="top-more">更多 ></div>
+        <router-link :to="{name: 'GoodsList', params: {value: '折扣', name: 'discount'}}" class="top-more">更多 ></router-link>
       </div>
       <div class="body">
         <ul>
@@ -16,7 +16,7 @@
               <span class="specs">规格：{{item.specs}}</span>
               <div class="goods-bottom">
                 <p><span class="symbol">￥</span>{{item.price}}<span class="price">{{item.discount}}</span></p>
-                <button>立即抢购</button>
+                <button @click="addToCart(item)">立即抢购</button>
               </div>
             </div>
           </li>
@@ -32,6 +32,31 @@ export default {
   computed: {
     goodsItem: function () {
       return this.$store.state.goods.catFood
+    },
+    usrPhone: function () {
+      return this.$store.state.getUserInfo.user.phone
+    }
+  },
+  methods: {
+    addToCart (item) {
+      if (!this.usrPhone) {
+        this.$router.push('/SignRegister')
+        return
+      }
+      let info = {
+        phone: this.usrPhone,
+        goodsItem: [
+          {
+            goodsId: item._id,
+            count: 1,
+            imgSrc: 'http://localhost:3000/static/img/petMallImg/catFood/' + item.image.show[0],
+            price: item.price,
+            title: item.name,
+            specs: item.specs
+          }
+        ]
+      }
+      this.$store.dispatch('addToCart', {info: info})
     }
   }
 }

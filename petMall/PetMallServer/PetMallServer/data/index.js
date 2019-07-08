@@ -69,6 +69,23 @@ DB.prototype.find = function (condition, config) {
      })
   })
 }
+// 更新数据
+DB.prototype.update = function (query, update, config) {
+  return new Promise ((resolve, reject) => {
+     this.connect().then((client) => {
+        const db = client.db(this.dbName);
+        db.collection(this.collectionName).update(query, update, config, function(err, res) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res)
+            console.log("文档更新成功")
+          }
+        })
+        client.close()
+     })
+  })
+}
 // 更新某条数据
 DB.prototype.updateOne = function (document, updateDocument) {
   return new Promise ((resolve, reject) => {

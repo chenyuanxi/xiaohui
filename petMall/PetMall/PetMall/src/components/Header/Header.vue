@@ -20,12 +20,14 @@ export default {
   },
   methods: {
     findGoods: function () {
-      this.$router.push('/goodsList')
+      if (this.goodsName.trim()) {
+        this.$router.push('/goodsList')
+      }
     }
   },
   beforeDestroy () {
     if (this.goodsName) {
-      eventBus.$emit('send', this.goodsName)
+      eventBus.$emit('send', this.goodsName.trim())
     }
   }
 }

@@ -40,5 +40,17 @@ export default {
   // 模糊查询商品
   findGoods: function (data) {
     return ajax('/api/findGoods', 'POST', data)
+  },
+  // 保存购物车
+  addToCart: function (data) {
+    return ajax('/api/addToCart', 'POST', data)
+  },
+  // 获取购物车信息
+  getShopCart: function (data) {
+    return ajax('/api/getShopCart', 'POST', data)
+  },
+  // 更新购物车信息
+  updateCart: function (data) {
+    return ajax('/api/updateCart', 'POST', data)
   }
 }

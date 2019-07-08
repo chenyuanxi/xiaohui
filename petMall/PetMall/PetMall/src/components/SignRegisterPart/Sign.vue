@@ -67,7 +67,7 @@ export default {
         this.message = response.message
         this.refImg()
       } else if (response.code === 0) {
-        // this.$store.dispatch('getUserInfo')
+        this.$store.dispatch('getUserInfo')
         this.$router.push('/Personal')
         this.$router.go(0)
       }

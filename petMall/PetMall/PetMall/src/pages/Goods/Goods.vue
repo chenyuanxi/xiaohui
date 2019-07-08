@@ -8,7 +8,16 @@
         <div @click="goBack" slot="left">&lt; 返回</div>
       </RollTitle>
     </transition>
-    <WheelPlant :data="wheelPlantData"></WheelPlant>
+    <div class="wheel" v-if="wheel">
+      <div class="swiper-container">
+      <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for="(item, index) in goodsDetails.image.show" :key="index">
+            <img :src="imageSrc + item" alt="展示图片" class="wheelImg">
+          </div>
+      </div>
+    </div>
+    </div>
+    <!-- <WheelPlant :data="wheelPlantData"></WheelPlant> -->
     <article v-if="goodsDetails._id" class="bag">
       <section class="info clearfix">
         <div class="left">
@@ -40,16 +49,18 @@
         </div>
       </section>
     </article>
+    <AddGoods v-if="addGoods" :goodsInfo="addGoodsInfo" v-on:getChild="setAddGoodsHide"/>
     <footer class="footer">
       <div class="service">
         <div class="iconfont icon-weibiaoti-"></div>
         <span>客服</span>
       </div>
-      <div class="shoopCart">
+      <div class="shoopCart" @click="goShopCart">
         <div class="iconfont icon-gouwu"></div>
         <span>购物车</span>
+        <div class="cartCount" v-show="this.cartCount > 0">{{cartCount > 99 ? '99+':cartCount}}</div>
       </div>
-      <div class="addShopCart">
+      <div class="addShopCart" @click="addGoods = !addGoods">
         <p>加入购物车</p>
       </div>
       <div class="buy">
@@ -60,16 +71,19 @@
 </template>
 
 <script>
+import Swiper from 'swiper'
 import Title from '../../components/Header/Title'
 import RollTitle from '../../components/Header/RollTitle'
 import WheelPlant from '../../components/WheelPlant/WheelPlant'
+import AddGoods from '../../components/GoodCard/AddGoods'
 
 export default {
   name: 'Goods',
   components: {
     Title,
     RollTitle,
-    WheelPlant
+    WheelPlant,
+    AddGoods
   },
   data: function () {
     return {
@@ -77,7 +91,19 @@ export default {
       isCollection: false,
       downTitle: false,
       scroll: '',
-      scrollY: ''
+      scrollY: '',
+      addGoods: false,
+      config: {
+        direction: 'horizontal', // 垂直切换选项
+        loop: true, // 循环模式选项
+        speed: 800,
+        // 自动轮播
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false
+        }
+      },
+      wheel: false
     }
   },
   computed: {
@@ -86,14 +112,42 @@ export default {
     },
     imageSrc: function () {
       return this.$route.query.imageSrc
+    },
+    addGoodsInfo: function () {
+      return {
+        user: this.user,
+        id: this.goodsDetails._id,
+        imgSrc: this.imageSrc + this.goodsDetails.image.show[0],
+        title: this.goodsDetails.name,
+        price: this.goodsDetails.price,
+        specs: this.goodsDetails.specs
+      }
+    },
+    user: function () {
+      return this.$store.state.getUserInfo.user
+    },
+    cartCount: function () {
+      return this.$store.state.shopCartCount
     }
   },
   methods: {
     goBack () {
       window.history.length > 1 ? this.$router.back() : this.$router.push('/')
     },
+    goShopCart () {
+      this.$router.push('/cart')
+    },
     collection () {
       this.isCollection = !this.isCollection
+    },
+    setAddGoodsHide (data) {
+      this.addGoods = data.switch
+    },
+    startWheel () {
+      /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "mySwiper" }] */
+      setTimeout(() => {
+        let mySwiper = new Swiper('.swiper-container', this.config)
+      }, 10)
     }
   },
   created () {
@@ -105,6 +159,11 @@ export default {
       if (!this.$route.query.id) {
         this.$router.replace('/')
       }
+    }
+    // 顶部轮播图
+    if (this.goodsDetails._id) {
+      this.startWheel()
+      this.wheel = true
     }
   },
   mounted () {
@@ -126,30 +185,12 @@ export default {
     window.removeEventListener('scroll', this.scroll)
   },
   watch: {
-    goodsDetails: function (newQuestion, oldQuestion) {
+    goodsDetails: function () {
       if (!this.goodsDetails._id) {
         return
       }
-      this.wheelPlantData = {
-        image: this.goodsDetails.image.show,
-        imgSrc: this.imageSrc,
-        wheelStyle: 'height: 300px',
-        config: {
-          direction: 'horizontal', // 垂直切换选项
-          loop: true, // 循环模式选项
-          speed: 800,
-          // 自动轮播
-          autoplay: {
-            delay: 4000,
-            disableOnInteraction: false
-          }
-          // 分页器
-          // pagination: {
-          //   el: '.swiper-pagination',
-          //   clickable: true
-          // }
-        }
-      }
+      this.startWheel()
+      this.wheel = true
     },
     scrollY () {
       this.downTitle = this.scrollY !== 0 || false
@@ -245,6 +286,9 @@ export default {
   .footer>div{
     float: left;
   }
+  .shoopCart{
+    position: relative
+  }
   .service,.shoopCart{
     flex: 3;
     height: 100%;
@@ -262,5 +306,30 @@ export default {
   }
   .buy{
     background: #f3ae8d;
+  }
+  .cartCount{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background: #f59221;
+    font-size: 14px;
+    color: #757070;
+  }
+   .swiper-container{
+    height: 300px;
+    background: #fff;
+  }
+  .swiper-slide{
+    text-align: center;
+  }
+  .swiper-pagination-bullet-active{
+    background: #eb890a;
+  }
+  .wheelImg{
+    width: 100%;
+    height: 100%;
   }
 </style>

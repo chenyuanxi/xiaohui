@@ -3,7 +3,7 @@
     <section>
       <div class="top">
         <h3 class="top-title">热销推荐</h3>
-        <div class="top-more">更多 ></div>
+        <router-link :to="{name: 'GoodsList', params: {value: '折扣', name: 'discount'}}" class="top-more">更多 ></router-link>
       </div>
       <div class="body">
         <GoodCard></GoodCard>

@@ -20,10 +20,11 @@ export default {
   props: ['data'],
   watch: {
     data: function () {
+      console.log(1)
       /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "mySwiper" }] */
       setTimeout(() => {
         var mySwiper = new Swiper('.swiper-container', this.data.config)
-      }, 100)
+      }, 10)
     }
   }
 }

@@ -16,12 +16,25 @@ export default {
   },
   name: 'App',
   created: function () {
+    // 获取用户信息
     this.$store.dispatch('getUserInfo')
+    // 获取首页商品信息
+    this.$store.dispatch('getGoods')
+    // 获取公共信息
+    this.$store.dispatch('getPublicInfo')
+    // 获取购物车信息
+    this.$store.dispatch('getShopCart')
   }
 }
 </script>
 
 <style>
+.clearfix::after{
+  display: block;
+  overflow: hidden;
+  content: "";
+  clear: both;
+}
 *{
   margin: 0;
   padding: 0;

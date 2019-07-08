@@ -1,7 +1,8 @@
 <template>
     <div class="homePage">
       <Header/>
-      <WheelPlant :data="wheelPlantData"/>
+      <!-- <WheelPlant :data="wheelPlantData"/> -->
+      <HomePageWheel/>
       <Nav/>
       <FullReduction/>
       <SellWell/>
@@ -11,10 +12,10 @@
 <script>
 import Header from '../components/Header/Header'
 import WheelPlant from '../components/WheelPlant/WheelPlant'
+import HomePageWheel from '../components/WheelPlant/HomePageWheel'
 import Nav from '../components/HomePagePart/Nav/Nav'
 import FullReduction from '../components/HomePagePart/FullReduction/FullReduction'
 import SellWell from '../components/HomePagePart/SellWell/SellWell'
-
 export default {
   name: 'HomePage',
   components: {
@@ -22,7 +23,8 @@ export default {
     WheelPlant,
     Nav,
     FullReduction,
-    SellWell
+    SellWell,
+    HomePageWheel
   },
   computed: {
     wheelPlantImg: function () {
@@ -59,10 +61,6 @@ export default {
         }
       }
     }
-  },
-  created () {
-    this.$store.dispatch('getPublicInfo')
-    this.$store.dispatch('getGoods')
   }
 }
 </script>

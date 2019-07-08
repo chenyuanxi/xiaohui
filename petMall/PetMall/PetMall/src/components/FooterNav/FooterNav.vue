@@ -8,7 +8,8 @@
       <div class="iconfont icon-fenlei"></div>
       <span>分类</span>
     </div>
-    <div class="footer-item" :class="{on:'/cart'===$route.path}" @click="jump('/cart')">
+    <div class="footer-item cart" :class="{on:'/cart'===$route.path}" @click="jump('/cart')">
+      <div class="cartCount" v-show="this.cartCount > 0">{{cartCount > 99 ? '99+':cartCount}}</div>
       <div class="iconfont icon-gouwu"></div>
       <span>购物车</span>
     </div>
@@ -25,6 +26,11 @@ export default {
   methods: {
     jump (path) {
       this.$router.push(path)
+    }
+  },
+  computed: {
+    cartCount: function () {
+      return this.$store.state.shopCartCount
     }
   }
 }
@@ -51,4 +57,18 @@ footer {
 .footer-item {
   flex: 1;
 }
+.cart{
+  position: relative;
+}
+.cartCount{
+    position: absolute;
+    top: 0;
+    left: 53%;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background: #f59221;
+    font-size: 14px;
+    color: #757070;
+  }
 </style>

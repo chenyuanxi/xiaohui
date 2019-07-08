@@ -9,7 +9,7 @@
           <div class="price">￥{{item.price}}</div>
         </div>
       </router-link>
-      <div class="shopCartwrap">
+      <div class="shopCartwrap" @click="addToCart(item)">
         <div class="iconfont icon-gouwu shopCart"></div>
       </div>
     </div>
@@ -22,6 +22,31 @@ export default {
   computed: {
     goodsItem: function () {
       return this.$store.state.goods.cat
+    },
+    usrPhone: function () {
+      return this.$store.state.getUserInfo.user.phone
+    }
+  },
+  methods: {
+    addToCart (item) {
+      if (!this.usrPhone) {
+        this.$router.push('/SignRegister')
+        return
+      }
+      let info = {
+        phone: this.usrPhone,
+        goodsItem: [
+          {
+            goodsId: item._id,
+            count: 1,
+            imgSrc: 'http://localhost:3000/static/img/petMallImg/cat/' + item.image.show[0],
+            price: item.price,
+            title: item.name,
+            specs: item.specs
+          }
+        ]
+      }
+      this.$store.dispatch('addToCart', {info: info})
     }
   }
 }

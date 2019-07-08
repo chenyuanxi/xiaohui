@@ -5,26 +5,12 @@
       <div slot="right"><span class="iconfont icon-chazhao search-img"></span></div>
     </Title>
     <div class="classPage">ClassPage</div>
-    <div>{{content}}</div>
   </div>
 </template>
 
 <script>
 import Title from '../components/Header/Title'
-import api from '../api/index.js'
-
 export default {
-  data: function () {
-    return {
-      content: ''
-    }
-  },
-  mounted: function () {
-    api.getNews().then(response => {
-      this.content = response
-      console.log(this.content)
-    })
-  },
   name: 'ClassPage',
   components: {
     Title

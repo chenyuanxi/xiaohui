@@ -13,5 +13,17 @@ export default {
   },
   receiveFindGoods (state, findGoods) {
     state.findGoods = findGoods
+  },
+  receiveAddToCart (state, addToCart) {
+    state.addToCart = addToCart
+  },
+  receiveGetShopCart (state, getShopCart) {
+    state.getShopCart = getShopCart
+  },
+  receiveGetShopCartCount (state, shopCartCount) {
+    state.shopCartCount = shopCartCount
+  },
+  receiveSetShopCartCount (state, shopCartCount) {
+    state.shopCartCount += shopCartCount
   }
 }

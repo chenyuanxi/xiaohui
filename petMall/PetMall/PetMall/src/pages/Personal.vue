@@ -117,7 +117,13 @@ export default {
     async logOut () {
       await api.logOut()
       this.$store.dispatch('getUserInfo')
+    },
+    signIn () {
+      this.$store.dispatch('getUserInfo')
     }
+  },
+  created () {
+    this.signIn()
   }
 }
 </script>

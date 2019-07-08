@@ -2,7 +2,7 @@
   <div>
     <ul class="nav">
       <li v-for="(item, index) in list" :key="index">
-        <router-link :to="{name: 'GoodsList', params: {goodsName: item.message}}">
+        <router-link :to="{name: 'GoodsList', params: {value: item.goodsName, name: 'type'}}">
           <img :src="item.src"/>
           <span>{{item.message}}</span>
         </router-link>
@@ -19,19 +19,23 @@ export default {
       list: [
         {
           src: require('./img/1.jpg'),
-          message: '喵星人'
+          message: '喵星人',
+          goodsName: 'cat'
         },
         {
           src: require('./img/2.jpg'),
-          message: '汪星球'
+          message: '汪星球',
+          goodsName: 'dog'
         },
         {
           src: require('./img/3.jpg'),
-          message: '鱼摆摆'
+          message: '鱼摆摆',
+          goodsName: 'fish'
         },
         {
           src: require('./img/4.jpg'),
-          message: '萌小宠'
+          message: '萌小宠',
+          goodsName: 'otherPets'
         }
       ]
     }

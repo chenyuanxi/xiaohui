@@ -5,6 +5,7 @@ var DB = require('../data/index')
 var sms = require('../sms/aliyunSms')
 var captcha = require('../sms/captcha')
 var ObjectID = require('mongodb').ObjectID
+var userShopCart = require('../mongodbModel/model/userShopCart')
 
 // 连接数据库
 const url = 'mongodb://localhost:27017';
@@ -133,18 +134,63 @@ router.post('/publicInfo',async function(req, res) {
 // 模糊查询商品
 router.post('/findGoods',async function (req, res) {
   if (req.body.condition) {
-    let condition = new RegExp(req.body.condition);
+    let condition = {}
+    condition[req.body.condition.name] = new RegExp(req.body.condition.value)
+    console.log(condition)
     let db = new DB(url, dbName, 'catFood')
     db.collectionName = 'catFood'
-    let catFood = await db.find({name: condition}, req.body.config)
+    let catFood = await db.find(condition, req.body.config)
     db.collectionName = 'cat'
-    let cat = await db.find({name: condition}, req.body.config)
+    let cat = await db.find(condition, req.body.config)
     let arry = []
     let goodsList = arry.concat(catFood, cat)
     res.send({
       goodsList: goodsList
     })
   }
+});
+
+// 保存购物车
+router.post('/addToCart',async function (req, res) {
+  if (!req.session.userPhone) {
+    return
+  }
+  let info = req.body.info
+  let id = info.goodsItem[0].goodsId
+  // 查询表中是否已有对应商品
+  let findInfo = await userShopCart.find({phone: info.phone})
+  if (findInfo.length > 0) {
+    let findGoods = await userShopCart.find({phone: info.phone},{'goodsItem':{$elemMatch:{"goodsId":id}}})
+    if (findGoods[0].goodsItem[0]) {
+      await userShopCart.updateOne({phone: info.phone,"goodsItem.goodsId":id},{$set:{"goodsItem.$.count":findGoods[0].goodsItem[0].count+info.goodsItem[0].count}})
+    } else {
+      await userShopCart.updateOne({phone: info.phone, "goodsItem.goodsId": {$ne: id}},{$push: {"goodsItem": info.goodsItem[0]}})
+    }
+  } else {
+    await userShopCart.insertMany(info)
+  }
+  res.end()
+});
+
+// 更新购物车信息
+router.post('/updateCart',async function (req, res) {
+  let getGoodsItem = req.body.goodsItem
+  let phone = req.session.userPhone
+  if (!phone) {
+    return
+  }
+  await userShopCart.updateOne({phone: phone},{$set:{"goodsItem": getGoodsItem}})
+  res.end()
+});
+
+// 获取购物车信息
+router.post('/getShopCart',async function (req, res) {
+  let phone = req.session.userPhone
+  if (!phone) {
+    return
+  }
+  let shopCartInfo = await userShopCart.find({phone: phone})
+  res.send(shopCartInfo[0])
 });
 
 module.exports = router;

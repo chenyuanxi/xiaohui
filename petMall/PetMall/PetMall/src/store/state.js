@@ -5,7 +5,16 @@ export default {
     code: ''
   },
   goods: {},
-  goodsDetails: {},
-  publicInfo: {},
-  findGoods: []
+  goodsDetails: {
+    image: {
+      show: []
+    }
+  },
+  publicInfo: {
+    wheelPlantImg: []
+  },
+  findGoods: [],
+  addToCart: {},
+  getShopCart: {},
+  shopCartCount: ''
 }
