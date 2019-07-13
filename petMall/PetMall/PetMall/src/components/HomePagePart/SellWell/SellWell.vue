@@ -43,7 +43,7 @@ export default {
     padding-left: 10px;
     font-size: 18px;
     font-weight: 200;
-    border-left: 3px solid #ff9100e1;
+    border-left: 3px solid #fdb455;
   }
   .top-more{
     float: right;
@@ -83,7 +83,7 @@ export default {
     right: 20px;
     bottom: 20px;
     padding: 5px 6px;
-    background: #f59090;
+    background: #fa8b8b;
     border-radius: 3px;
   }
   .shopCart{

@@ -27,7 +27,7 @@ import api from '../../api/index.js'
 export default {
   data: function () {
     return {
-      imgSrc: 'http://localhost:3000/captcha',
+      imgSrc: 'http://47.103.3.153:3000/captcha',
       isFocus: '',
       password: '',
       phone: '',
@@ -59,16 +59,14 @@ export default {
         password: this.password,
         sms: this.sms
       })
-      if (response.code) {
-        this.button = true
-      }
+      this.button = true
       if (response.code === 1) {
         this.tip = true
         this.message = response.message
         this.refImg()
       } else if (response.code === 0) {
-        this.$store.dispatch('getUserInfo')
         this.$router.push('/Personal')
+        this.$store.dispatch('getUserInfo')
         this.$router.go(0)
       }
     },

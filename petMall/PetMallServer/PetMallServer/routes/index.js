@@ -6,6 +6,7 @@ var sms = require('../sms/aliyunSms')
 var captcha = require('../sms/captcha')
 var ObjectID = require('mongodb').ObjectID
 var userShopCart = require('../mongodbModel/model/userShopCart')
+var shopEvaluate = require('../mongodbModel/model/shopEvaluate')
 
 // 连接数据库
 const url = 'mongodb://localhost:27017';
@@ -21,59 +22,60 @@ router.get('/news', function (req, res) {
 
 // 图形验证码
 router.get('/captcha', function (req, res) {
+  req.session.a = 1
   captcha.getCode(req, res)
 });
 
 // 获取短信验证码
 router.post('/sms', function (req, res) {
   if (req.body.phone) {
-    sms.setRandomSMS()
-    sms.sendSms(req.body.phone).then(() => {
-      res.send('发送成功')
-    }, (ex) => {
-      res.send(ex)
-    })
+    sms.sendSms(req, res)
   }
 });
 
 // 注册
 router.post('/register',async function(req, res) {
   // 检查验证码
-  if (!req.body.sendSms && (sms.value.toString() !== req.body.sendSms)) {
+  let sendSms = req.body.sendSms.toString()
+  let sms = req.session.sms.toString()
+  if (sms !== sendSms) {
     res.send({code: 1, message: '验证码错误'})
     return;
   }
   // 检查手机号是否已被注册
+  let db = new DB(url, dbName, 'user')
   let result = await db.find({phone: req.body.phone})
   if (result.length !== 0) {
     res.send({code: 1, message: '手机号已被注册'})
     return; 
   }
   // 添加数据到数据库
-  let db = new DB(url, dbName, 'user')
   await db.insertOne({phone: req.body.phone, password: req.body.password, name: req.body.name})
   res.send({code: 0, message: '注册成功'})
-  sms.setInitSMS()
 });
 
 // 登录
 router.post('/sign', async function(req, res) {
-  if (req.body.sms.toLowerCase() !== captcha.captchaText.toLowerCase()) {
+  console.log(req.session.a)
+  console.log(req.session.captcha)
+  let sms = req.body.sms.toLowerCase()
+  let captcha = req.session.captcha
+  if (sms !== captcha) {
     res.send({code: 1, message: '验证码错误'})
-    return
-  }
-  let db = new DB(url, dbName, 'user')
-  let result = await db.find({phone: req.body.phone})
-  if (result.length === 0 ) {
-    res.send({code: 1, message: '账号不存在'})
-    return
-  }
-  if (req.body.password.toString() === result[0].password) {
-    req.session.userPhone = req.body.phone
-    res.send({code: 0, message: '登录成功',phone: req.session.userPhone})
   } else {
-    res.send({code: 1, message: '密码错误'})
+    let db = new DB(url, dbName, 'user')
+    let result = await db.find({phone: req.body.phone})
+    if (result.length === 0 ) {
+      res.send({code: 1, message: '账号不存在'})
+    } else if (req.body.password.toString() === result[0].password) {
+      req.session.userPhone = req.body.phone
+      res.send({code: 0, message: '登录成功',phone: req.session.userPhone})
+    } else {
+      res.send({code: 1, message: '密码错误'})
+    }
   }
+  // 删除验证码
+  // delete req.session.captcha
 });
 
 // 退出登录
@@ -191,6 +193,19 @@ router.post('/getShopCart',async function (req, res) {
   }
   let shopCartInfo = await userShopCart.find({phone: phone})
   res.send(shopCartInfo[0])
+});
+
+// 获取商品评价
+router.post('/shopEvaluate',async function (req, res) {
+  let goodsId = req.body.goodsId
+  if (goodsId) {
+    let result = await shopEvaluate.find({goodsId: goodsId})
+    res.send(result)
+  } else {
+    res.send({
+      message: 暂无评价
+    })
+  }
 });
 
 module.exports = router;

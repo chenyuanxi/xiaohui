@@ -20,9 +20,7 @@ export default {
   },
   methods: {
     findGoods: function () {
-      if (this.goodsName.trim()) {
-        this.$router.push('/goodsList')
-      }
+      this.$router.push('/goodsList')
     }
   },
   beforeDestroy () {
@@ -67,6 +65,9 @@ header{
   border: 1px solid #f8b6b6;
 }
 .search span{
+  width: 18px;
+  height: 18px;
+  z-index: 10;
   font-size: 18px;
   position: absolute;
   top: 1px;

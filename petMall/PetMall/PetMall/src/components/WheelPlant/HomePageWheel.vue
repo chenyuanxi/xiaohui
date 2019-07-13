@@ -23,7 +23,7 @@ export default {
   },
   data: function () {
     return {
-      imgSrc: 'http://localhost:3000/static/img/petMallImg/wheelPlant/',
+      imgSrc: 'http://47.103.3.153:3000/static/img/petMallImg/wheelPlant/',
       config: {
         direction: 'horizontal', // 垂直切换选项
         loop: true, // 循环模式选项

@@ -8,11 +8,11 @@
       <div class="body">
         <ul>
           <li class="goods-item" v-for="(item, index) in goodsItem" :key="index">
-            <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: 'http://localhost:3000/static/img/petMallImg/catFood/'}}" class="goods-img">
-              <img :src="'http://localhost:3000/static/img/petMallImg/catFood/' + item.image.show[0]"/>
+            <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: imgUrl}}" class="goods-img">
+              <img :src="imgUrl + item.image.show[0]"/>
             </router-link>
             <div class="goods-info">
-              <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: 'http://localhost:3000/static/img/petMallImg/catFood/'}}" class="goods-title">{{item.name}}</router-link>
+              <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: imgUrl}}" class="goods-title">{{item.name}}</router-link>
               <span class="specs">规格：{{item.specs}}</span>
               <div class="goods-bottom">
                 <p><span class="symbol">￥</span>{{item.price}}<span class="price">{{item.discount}}</span></p>
@@ -29,6 +29,11 @@
 <script>
 export default {
   name: 'FullReduction',
+  data () {
+    return {
+      imgUrl: 'http://47.103.3.153:3000/static/img/petMallImg/catFood/'
+    }
+  },
   computed: {
     goodsItem: function () {
       return this.$store.state.goods.catFood
@@ -49,7 +54,7 @@ export default {
           {
             goodsId: item._id,
             count: 1,
-            imgSrc: 'http://localhost:3000/static/img/petMallImg/catFood/' + item.image.show[0],
+            imgSrc: this.imgUrl + item.image.show[0],
             price: item.price,
             title: item.name,
             specs: item.specs
@@ -82,7 +87,7 @@ export default {
     padding-left: 10px;
     font-size: 18px;
     font-weight: 200;
-    border-left: 3px solid #ff9100e1;
+    border-left: 3px solid #fab65c;
   }
   .top-more{
     float: right;
@@ -118,7 +123,7 @@ export default {
     width: 65%;
     box-sizing: border-box;
     padding-top: 8px;
-    border-bottom: 1px solid #f560607c;
+    border-bottom: 1px solid #f8bfbf;
   }
   .goods-title{
     color: #000;
@@ -132,7 +137,7 @@ export default {
   }
   .goods-bottom{
     margin-top: 32px;
-    color:#ff0000dc;
+    color:#f74a4a;
   }
   .goods-bottom p{
     float: left;
@@ -155,6 +160,6 @@ export default {
     border-radius: 6px;
     font-size: 14px;
     color: #fff;
-    background: #ff00008a;
+    background: #fa8b8b;
   }
 </style>

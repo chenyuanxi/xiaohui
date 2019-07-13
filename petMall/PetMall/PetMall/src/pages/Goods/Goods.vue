@@ -32,21 +32,24 @@
       </section>
       <section class="details">
         <div class="details-title">
-          <span>商品详情</span>
-          <span>商品评价</span>
+          <span :class="{focus: shopShow}" @click="shopShow = true">商品详情</span>
+          <span :class="{focus: !shopShow}" @click="shopShow = false">商品评价</span>
+        </div>
+        <div class="shopShow" v-if="shopShow">
           <img src="./img/mmexport1560235013790.png">
-        </div>
-        <ul class="details-item" ref="details">
-          <li v-for="(item, index) in goodsDetails.image.details" :key="index">
+          <ul class="details-item" ref="details">
+            <li v-for="(item, index) in goodsDetails.image.details" :key="index">
               <img :src="imageSrc + item"/>
-          </li>
-        </ul>
-        <div class="bottomImg">
-          <img src="./img/mmexport1560235144909.jpeg"/>
-          <img src="./img/mmexport1560235147214.jpeg"/>
-          <img src="./img/mmexport1560235149779.jpeg"/>
-          <img src="./img/mmexport1560235153104.jpeg"/>
+            </li>
+          </ul>
+          <div class="bottomImg">
+            <img src="./img/mmexport1560235144909.jpeg"/>
+            <img src="./img/mmexport1560235147214.jpeg"/>
+            <img src="./img/mmexport1560235149779.jpeg"/>
+            <img src="./img/mmexport1560235153104.jpeg"/>
+          </div>
         </div>
+        <Evaluate v-else :goodsId = "goodsDetails._id"/>
       </section>
     </article>
     <AddGoods v-if="addGoods" :goodsInfo="addGoodsInfo" v-on:getChild="setAddGoodsHide"/>
@@ -76,6 +79,7 @@ import Title from '../../components/Header/Title'
 import RollTitle from '../../components/Header/RollTitle'
 import WheelPlant from '../../components/WheelPlant/WheelPlant'
 import AddGoods from '../../components/GoodCard/AddGoods'
+import Evaluate from '../../components/GoodCard/Evaluate'
 
 export default {
   name: 'Goods',
@@ -83,7 +87,8 @@ export default {
     Title,
     RollTitle,
     WheelPlant,
-    AddGoods
+    AddGoods,
+    Evaluate
   },
   data: function () {
     return {
@@ -93,6 +98,7 @@ export default {
       scroll: '',
       scrollY: '',
       addGoods: false,
+      shopShow: true,
       config: {
         direction: 'horizontal', // 垂直切换选项
         loop: true, // 循环模式选项
@@ -302,7 +308,7 @@ export default {
     color: #fff;
   }
   .addShopCart{
-    background: #444343af;
+    background: #8d8a8a;
   }
   .buy{
     background: #f3ae8d;
@@ -331,5 +337,8 @@ export default {
   .wheelImg{
     width: 100%;
     height: 100%;
+  }
+  .focus{
+    color: #f38875
   }
 </style>

@@ -78,7 +78,7 @@ export default {
   bottom: 50px;
   width: 100%;
   z-index: 100;
-  background: #99999941;
+  background: rgba(216, 214, 214, 0.42);
 }
 .container{
   position: absolute;
@@ -124,7 +124,7 @@ export default {
   display: inline-block;
   width: 26px;
   height: 20px;
-  background: #cfcbcb52;
+  background: #ecebeb;
 }
 .value{
   display: inline-block;
@@ -135,7 +135,7 @@ export default {
 .button{
   margin-right:16px;
   margin-top: -15px;
-  background: #f2631177;
+  background: #f3ae8d;
   border: none;
   color: #5c5a5a;
   width: 60px;

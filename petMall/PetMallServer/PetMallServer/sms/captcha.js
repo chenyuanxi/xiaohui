@@ -1,7 +1,6 @@
 var svgCaptcha = require('svg-captcha')
 
 var Captcha = function () {
-  this.captchaText = '' // 验证码值
 }
 
 Captcha.prototype.getCode = function (req, res) {
@@ -12,7 +11,7 @@ Captcha.prototype.getCode = function (req, res) {
       height: 44 
   }
   var captcha = svgCaptcha.create(codeConfig);
-  this.captchaText = captcha.text;
+  req.session.captcha = captcha.text.toLowerCase()
   res.type('svg');
   res.send(captcha.data);
 }

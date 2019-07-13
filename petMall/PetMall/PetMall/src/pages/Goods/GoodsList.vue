@@ -40,7 +40,7 @@
                 :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: 'http://localhost:3000/static/img/petMallImg/'  + item.type + '/'}}"
               >
                 <img
-                  :src="'http://localhost:3000/static/img/petMallImg/' + item.type + '/' + item.image.show[0]"
+                  :src="imgUrl + item.type + '/' + item.image.show[0]"
                 >
                 <div class="sellWell-list-info">
                   <div class="name">{{item.name}}</div>
@@ -100,6 +100,7 @@ export default {
       cookieName: '',
       cookieValue: '',
       downRrfMessage: 'Loading more...',
+      imgUrl: 'http://47.103.3.153:3000/static/img/petMallImg/',
       sortList: [
         {
           name: '默认',
@@ -214,7 +215,8 @@ export default {
     }
     // 主页获取商品名查询对应商品
     eventBus.$on('send', (getValue) => {
-      if (getValue && !this.params) {
+      if (getValue && !this.params.name) {
+        console.log(getValue)
         this.goodsName = getValue
         this.getFindGoods({name: 'name', value: this.goodsName})
       }

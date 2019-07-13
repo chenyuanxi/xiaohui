@@ -5,7 +5,8 @@
     </Title>
     <div class="shoopCart" v-if="have">
       <div class="goodsItem clearfix" v-for="(item, index) in userShopCart" :key="index">
-        <div class="left clearfix">
+        <div class="left
+        ">
           <input type="checkbox" :value="item" v-model="checkbox"/>
           <img :src="item.imgSrc" class="goodsItemImg"/>
         </div>
@@ -163,9 +164,11 @@ export default {
   overflow: hidden;
 }
 .left{
+  width: 24%;
   margin-top: 12px;
 }
 .right{
+  width: 20%;
   float: right;
   margin: 12px 8px 0 0
 }
@@ -177,8 +180,8 @@ export default {
   margin: 22px 8px 0 10px;
 }
 .goodsItemImg{
-  width: 60px;
-  height: 60px;
+  width: 60%;
+  height: 60%;
 }
 .middle{
   width: 48%;
@@ -203,7 +206,7 @@ export default {
   display: inline-block;
   width: 26px;
   height: 20px;
-  background: #cfcbcb52;
+  background: #e7e5e5;
   text-align: center;
 }
 .value{
@@ -214,7 +217,7 @@ export default {
 }
 .price{
   font-size: 20px;
-  color: #fc1d1dc2;
+  color: #fa4747;
 }
 .delete{
   margin-top: 16px;

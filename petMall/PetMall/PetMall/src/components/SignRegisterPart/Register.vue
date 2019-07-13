@@ -10,13 +10,18 @@
       <input type="text" v-model="phone" @blur="tip('phone')">
       <span v-show="phoneTip" class="tip">*手机号格式错误</span>
     </div>
-    <div class="check">
+    <div class="sms">
+      <span>验证码</span>
+      <input type="text" v-model="sms" id="inputSms">
+      <span class="getCheck" :class="{changeGetCheck: isPhoneChange, disable: isDisable}" @click="getSMS" v-cloak>{{SMStext}}</span>
+    </div>
+    <!-- <div class="check">
       <span>验证码</span>
       <span class="check-wrap" :class="{'check-wrap-border': isFocus}">
         <input type="text" v-model="sms" @focus="isFocus=true" @blur="isFocus=false">
         <span class="getCheck" :class="{changeGetCheck: isPhoneChange, disable: isDisable}" @click="getSMS" v-cloak>{{SMStext}}</span>
       </span>
-    </div>
+    </div> -->
     <div>
       <span>密码</span>
       <input type="password" v-model="password" @blur="tip('passwordTip')">
@@ -80,11 +85,13 @@ export default {
         password: this.password,
         sendSms: this.sms
       })
-      if (response.code === 1) {
-        this.info = '验证码错误'
-      } else if (response.code === 0) {
-        alert('注册成功')
-        this.$router.go(0)
+      if (response.code) {
+        this.info = response.message
+        if (response.code === 0) {
+          this.$router.go(0)
+        }
+      } else {
+        this.info = '服务器好像出问题了~'
       }
     },
     // 验证格式
@@ -142,35 +149,37 @@ export default {
 
 <style scoped>
 .registerContent{
-  width: 270px;
+  width: 80%;
   margin: 0 auto;
 }
 .registerContent>div{
   height: 20px;
-  margin: 26px auto 0 auto;
+  padding-right: 50px;
+  margin-top: 26px;
   text-align: right;
 }
 .registerContent input{
+  width: 66%;
   height: 25px;
   padding: 0 2px;
+  box-sizing: border-box;
   border: 1px solid #ccc8c8;
 }
 input:focus{
   border-color: #999;
 }
-.check input{
-  width: 117px;
-  margin-right: 76px;
-  border: none;
+#inputSms{
+  padding-right: 80px;
+  box-sizing: border-box;
 }
-.check{
+.sms{
   position: relative;
 }
 .getCheck{
   position: absolute;
   color: #ccc8c8;
-  right: 3px;
-  top: 7px;
+  right: 53px;
+  top: 5px;
   pointer-events: none;
   font-size: 14px;
 }

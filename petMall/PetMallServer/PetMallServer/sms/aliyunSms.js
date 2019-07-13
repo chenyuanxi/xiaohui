@@ -1,13 +1,12 @@
 const Core = require('@alicloud/pop-core');
 
 function SMS () {
-  this.value = '',
-  this.config = function (phone) {
+  this.config = function (phone, value) {
     return {
       "PhoneNumbers": phone,
       "SignName": "宠物乐园",
       "TemplateCode": "SMS_166975200",
-      "TemplateParam": "{'code':"+this.value+"}"
+      "TemplateParam": "{'code':"+value+"}"
     }
   },
   this.requestOption = {
@@ -21,18 +20,16 @@ function SMS () {
   })
 }
 
-SMS.prototype.setRandomSMS = function () {
-  this.value = Math.floor(Math.random() * 899999 + 100000)
-}
-SMS.prototype.setInitSMS = function () {
-  this.value = ''
-}
-SMS.prototype.sendSms = function (phone) {
-  return this.client.request('SendSms', this.config(phone), this.requestOption)
+SMS.prototype.sendSms = function (req, res) {
+  let value = Math.floor(Math.random() * 899999 + 100000)
+  req.session.sms = value
+  this.client.request('SendSms', this.config(req.body.phone, value), this.requestOption)
+    .then(() => {
+      res.send('发送成功')
+    }, (ex) => {
+      res.send(ex)
+    })
 }
 
 const sms = new SMS()
 module.exports = sms
-
-
-

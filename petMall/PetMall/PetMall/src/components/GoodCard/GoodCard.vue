@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-for="(item, index) in goodsItem" :key="index" class="sellWell-list">
-      <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: 'http://localhost:3000/static/img/petMallImg/cat/'}}">
-        <img :src="'http://localhost:3000/static/img/petMallImg/cat/' + item.image.show[0]"/>
+      <router-link :to="{ name: 'Goods', params: item, query:{id: item._id, type: item.type, imageSrc: imgUrl}}">
+        <img :src="imgUrl + item.image.show[0]"/>
         <div class="sellWell-list-info">
           <div class="name">{{item.name}}</div>
           <div class="specs">规格：{{item.specs}}</div>
@@ -19,6 +19,11 @@
 <script>
 export default {
   name: 'FullReduction',
+  data () {
+    return {
+      imgUrl: 'http://47.103.3.153:3000/static/img/petMallImg/cat/'
+    }
+  },
   computed: {
     goodsItem: function () {
       return this.$store.state.goods.cat
@@ -39,7 +44,7 @@ export default {
           {
             goodsId: item._id,
             count: 1,
-            imgSrc: 'http://localhost:3000/static/img/petMallImg/cat/' + item.image.show[0],
+            imgSrc: this.imgUrl + item.image.show[0],
             price: item.price,
             title: item.name,
             specs: item.specs
