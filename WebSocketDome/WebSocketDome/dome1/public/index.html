@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			@media screen and (min-width: 800px) {
+				section{
+					width: 60% !important;
+				}
+			}
+			input,button{
+				outline: none;
+				padding: 0 0.2rem;
+			}
+			section{
+				width: 100%;
+				margin: 0 auto;
+			}
+			.wrap{
+				position: relative;
+				padding: 2rem 0.6rem;
+				height: 500px;
+				border-radius: 0.2rem;
+				border: 1px solid #e2cdcd;
+				box-shadow: 0 0 2px 1px #efebeb;
+				overflow: hidden;
+				overflow-y: scroll;
+			}
+		/* 	.wrap::-webkit-scrollbar{
+			} */
+			.bottom{
+				overflow: hidden;
+				margin-top: 0.6rem;
+			}
+			.tips{
+				font-size: 0.8rem;
+				color: #999;
+			}
+			#input, #send, .tips{
+				float: right;
+				height: 2rem;
+				border: none;
+				line-height: 2rem;
+				border-radius: 2px;
+				box-sizing: border-box;
+				margin-right: 1rem;
+				transition: all 0.5s;
+			}
+			#input{
+				border: 1px solid #c7c7c1;
+			}
+			#send{
+				padding: 0 1rem;
+				background: #aca5d0;
+				color: #fff;
+			}
+			#input:focus{
+				border-color: #929292;
+			}
+			#send:active{
+				background: #7e74b3;
+			}
+			.wrap-top{
+				position: absolute;
+				top: 0.6rem;
+				left: 0.2rem;
+				height: 2rem;
+			}
+			.name-wrap{
+				position: relative;
+			}
+			#name, .theName{
+				font-size: 1rem;
+				position: absolute;
+			}
+			#name{
+				height: 1.6rem;
+				width: 6rem;
+				border: none;
+				border: 1px solid #C7C7C1;
+				border-radius: 2px;
+				box-sizing: border-box;
+				transition: all 0.5s;
+			}
+			.theName{
+				display: inline-block;
+				width: 8rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			/* 消息 */
+			.message-wrap{
+				overflow: hidden;
+				padding: 0.6rem 0.6rem;
+				line-height: 1rem;
+			}
+			.message{
+				float: left;
+				font-size: 1rem;
+			}
+			.time{
+				float: right;
+				font-size: 0.8rem;
+				vertical-align: -2rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<section>
+			<div class="wrap">
+				<div class="wrap-top">
+					<span>昵称：</span>
+					<span class="name-wrap">
+						<span class="theName"></span>
+						<input type="text" id="name" autocomplete="off"/>
+					</span>
+				</div>
+				<div class="chatBox"></div>
+			</div>
+			<div class="bottom">
+				<button id="send">发送</button>
+				<input type="text" id="input"/>
+				<span class="tips"></span>
+			</div>
+		</section>
+		<script src="javascripts/jquery-3.4.1.min.js"></script>
+		<script>
+			// 非空验证
+			function check () {
+				if ($('#name').val() == '') {
+					$('.tips').text('昵称为空')
+					return true
+				}
+				if ($('#input').val() == '') {
+					return true
+				}
+			}
+			
+			// 获取当前时间
+			function getTime () {
+				let time = new Date()
+				let year = time.getFullYear()
+				let month = time.getMonth()+1
+				let day = time.getDate()
+				let hours = time.getHours()
+				let minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes()
+				return year+'.'+month+'.'+day+' '+hours+':'+minutes
+			}
+			
+			// 昵称
+			$('#name').blur(function () {
+				if ($(this).val()){
+					$(this).hide()
+					$('.theName').text($(this).val())
+				} 
+			})
+			$('.theName').click(function () {
+				$('#name').val($(this).text())
+				$(this).text('')
+				$('#name').show()
+				$('#name').focus()
+			})
+			// 渲染消息到列表
+			function createMessage (data) {
+				let html = ''
+				$.each(data, function (index, val) {
+					html += `
+						<p class="message-wrap">
+							<span class="message">${val.name}:${val.message}</span>
+							<span class="time">${getTime()}</span>
+						</p>
+					`
+				})
+				$('.chatBox').append(html)
+			}
+			// 创建连接
+			const socket = new WebSocket('ws://localhost:8080');
+			
+			// 发送信息
+			$('#send').click(function () {
+				if (check()){return}
+				let send = {
+					name: $('#name').val(),
+					message: $('#input').val()
+				}
+				socket.send(JSON.stringify(send))
+				$('#input').val('')
+				$('.tips').text('')
+			})
+			
+			// 接收信息
+			socket.addEventListener('message', function (event) {
+				createMessage(JSON.parse(event.data))
+			});
+			
+		</script>
+	</body>
+</html>
